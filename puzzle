@@ -1,0 +1,125 @@
+#!/bin/bash
+
+# ==========================
+# Terminal Puzzle Game
+# ==========================
+
+clear
+echo "🧠 WELCOME TO THE BASH PUZZLE"
+echo "Answer all puzzles correctly to unlock the secret."
+echo "-----------------------------------------------"
+
+score=0
+
+pause() {
+    sleep 1
+}
+
+ask() {
+    local question="$1"
+    local answer="$2"
+
+    read -p "$question > " user_answer
+    user_answer=$(echo "$user_answer" | tr 'A-Z' 'a-z')
+
+    if [[ "$user_answer" == "$answer" ]]; then
+        echo "✅ Correct!"
+        ((score++))
+    else
+        echo "❌ Wrong! Game Over."
+        exit 1
+    fi
+    pause
+}
+
+# ==========================
+# PUZZLES
+# ==========================
+
+ask "Puzzle 1: What command shows your current directory?" "pwd"
+
+ask "Puzzle 2: What symbol represents the home directory?" "~"
+
+ask "Puzzle 3: Which command lists files?" "ls"
+
+ask "Puzzle 4: What file permission means read?" "r"
+
+ask "Puzzle 5: What shell variable stores the current user?" "user"
+
+# ==========================
+# FINAL CHALLENGE
+# ==========================
+
+echo "-----------------------------------------------"
+echo "⚡ FINAL CHALLENGE"
+read -p "Type the number of puzzles you solved: " final_answer
+
+if [[ "$final_answer" -eq "$score" ]]; then
+    echo
+    echo "🏆 CONGRATULATIONS!"
+    echo "You unlocked the secret message:"
+    echo "👉 'Bash is not magic — it's logic.'"
+else
+    echo "❌ Incorrect. Puzzle locked."
+    exit 2
+fi
+
+clear
+echo "🧠 WELCOME TO THE BASH PUZZLE"
+echo "Answer all puzzles correctly to unlock the secret."
+echo "-----------------------------------------------"
+
+score=0
+
+pause() {
+    sleep 1
+}
+
+ask() {
+    local question="$1"
+    local answer="$2"
+
+    read -p "$question > " user_answer
+    user_answer=$(echo "$user_answer" | tr 'A-Z' 'a-z')
+
+    if [[ "$user_answer" == "$answer" ]]; then
+        echo "✅ Correct!"
+        ((score++))
+    else
+        echo "❌ Wrong! Game Over."
+        exit 1
+    fi
+    pause
+}
+
+# ==========================
+# PUZZLES
+# ==========================
+
+ask "Puzzle 1: What command shows your current directory?" "pwd"
+
+ask "Puzzle 2: What symbol represents the home directory?" "~"
+
+ask "Puzzle 3: Which command lists files?" "ls"
+
+ask "Puzzle 4: What file permission means read?" "r"
+
+ask "Puzzle 5: What shell variable stores the current user?" "user"
+
+# ==========================
+# FINAL CHALLENGE
+# ==========================
+
+echo "-----------------------------------------------"
+echo "⚡ FINAL CHALLENGE"
+read -p "Type the number of puzzles you solved: " final_answer
+
+if [[ "$final_answer" -eq "$score" ]]; then
+    echo
+    echo "🏆 CONGRATULATIONS!"
+    echo "You unlocked the secret message:"
+    echo "👉 'Bash is not magic — it's logic.'"
+else
+    echo "❌ Incorrect. Puzzle locked."
+    exit 2
+fi
