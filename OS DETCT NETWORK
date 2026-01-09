@@ -1,0 +1,40 @@
+#!/bin/bash
+
+echo "🌐 Advanced Network OS Detection"
+echo "================================="
+
+# Root check
+if [[ $EUID -ne 0 ]]; then
+    echo "❌ Run as root: sudo $0"
+    exit 1
+fi
+
+# Detect interface
+IFACE=$(ip route | awk '/default/ {print $5}')
+echo "📡 Interface: $IFACE"
+
+# Detect network range
+NETWORK=$(ip route | awk '/kernel/ {print $1}' | head -n 1)
+echo "📡 Network: $NETWORK"
+echo "---------------------------------"
+
+# Find live hosts (ARP-based)
+nmap -sn "$NETWORK" -oG - | awk '/Up$/{print $2}' > live_hosts.txt
+
+echo "✅ Live IPs:"
+cat live_hosts.txt
+echo "---------------------------------"
+
+echo "🧠 OS Detection (best-effort)"
+echo "---------------------------------"
+
+while read IP
+do
+    echo "🔎 $IP"
+    nmap -Pn -O --osscan-guess --max-os-tries 1 "$IP" 2>/dev/null | \
+    grep -E "Running:|OS details|Aggressive OS guesses|Device type"
+    echo "---------------------------------"
+done < live_hosts.txt
+
+echo "📁 IP list saved: live_hosts.txt"
+echo "✅ Scan finished"
