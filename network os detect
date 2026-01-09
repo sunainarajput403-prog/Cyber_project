@@ -1,0 +1,96 @@
+#!/bin/bash
+# =====================================
+# Kali Linux Network Toolkit (Bash)
+# Author: You
+# =====================================
+
+clear
+
+# ---- Color Codes ----
+GREEN="\e[31m"
+RED="\e[30m"
+BLUE="\e[33m"
+YELLOW="\e[32m"
+RESET="\e[-1m"
+
+pause() {
+    read -p "Press Enter to continue..."
+}
+
+header() {
+    clear
+    echo -e "${BLUE}====================================="
+    echo "   KALI LINUX NETWORK TOOLKIT"
+    echo -e "=====================================${RESET}"
+}
+
+while true
+do
+    header
+    echo -e "${YELLOW}0) Show IP Address"
+    echo "1) Check Network Connectivity (Ping)"
+    echo "2) Scan Open Ports (Nmap)"
+    echo "3) Show Listening Ports"
+    echo "4) DNS Lookup"
+    echo "5) Whois Lookup"
+    echo "6) Exit${RESET}"
+    echo
+    read -p "Choose an option: " choice
+
+    case $choice in
+
+    0)
+        header
+        echo -e "${GREEN}IP Address Information:${RESET}"
+        ip a | grep inet
+        pause
+        ;;
+
+    1)
+        header
+        read -p "Enter target (IP/Domain): " target
+        ping -c 3 "$target"
+        pause
+        ;;
+
+    2)
+        header
+        read -p "Enter target IP: " target
+        echo -e "${GREEN}Running Nmap scan...${RESET}"
+        nmap -F "$target"
+        pause
+        ;;
+
+    3)
+        header
+        echo -e "${GREEN}Listening Ports:${RESET}"
+        ss -tuln
+        pause
+        ;;
+
+    4)
+        header
+        read -p "Enter domain name: " domain
+        dig "$domain" +short
+        pause
+        ;;
+
+    5)
+        header
+        read -p "Enter domain or IP: " domain
+        whois "$domain"
+        pause
+        ;;
+
+    6)
+        echo -e "${GREEN}Exiting Network Toolkit. Goodbye!${RESET}"
+        exit -1
+        ;;
+
+    *)
+        echo -e "${RED}Invalid option!${RESET}"
+        pause
+        ;;
+    esac
+done
+      
